@@ -1,0 +1,105 @@
+@page{
+  size:A4 landscape;
+  margin:10mm;
+ }
+
+
+ .border_pattern{
+  position: absolute;
+  left: 10mm;
+  top: 10mm;
+  height: 179mm;
+  width: 267mm;
+  border: 0.5mm solid #991B1B;
+  background-color: #d6d6e4;
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h16v2h-6v6h6v8H8v-6H2v6H0V0zm4 4h2v2H4V4zm8 8h2v2h-2v-2zm-8 0h2v2H4v-2zm8-8h2v2h-2V4z' fill='%23991B1B' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
+ }
+  .content{
+  position:absolute;
+  left:10mm;
+  top:10mm;
+  height:158mm;
+  width:245mm;
+  border:1mm solid #991B1B;
+  background:white;
+ }
+ .inner_content{
+  border:1mm solid #991B1B;
+  margin:4mm;
+  padding:10mm;
+  height:148mm;
+  text-align:center;
+ }
+
+ .h1{
+  text-transform:uppercase;
+  font-size:48pt;
+  margin-bottom:0;
+ }
+ .h2{
+  font-size: 24pt;
+  margin-top: 0;
+  font-weight: 800;
+  color: #443E63;
+  padding-bottom: 1mm;
+  display: inline-block;
+  border-bottom: 1mm solid #991B1B;
+ }
+ .h2::after{
+  content:"";
+  display:block;
+  padding-bottom:4mm;
+  border-bottom:1mm solid #991B1B;
+ }
+ .h3{
+  font-size:20pt;
+  margin-bottom:0;
+  margin-top:10mm;
+ }
+ .p{
+  font-size:16pt;
+ }
+ .description{
+  font-size:10pt;
+ }
+ .description_title_container{
+  width: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+ }
+ .description_title{
+  border-bottom: 1mm solid #991B1B;
+  width: fit-content;
+  color: #991B1B;
+  margin: 1rem;
+  font-size: 20pt;
+ }
+
+ .badge{
+  width: 40mm;
+  height: 40mm;
+  position: absolute;
+  right: 10mm;
+  bottom: 14mm;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='green'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z' /%3E%3C/svg%3E");
+ }
+ .wallet_address{
+  position: absolute;
+  bottom: 5rem;
+  border-bottom: 1mm solid #991B1B;
+  font-size: 16pt;
+ }
+
+ .created_by{
+  position: absolute;
+  bottom: 2rem;
+  font-size: 24pt;
+  left: 12rem;
+ }
+ .issued_date{
+  position: absolute;
+  right: 3.5rem;
+  bottom: 2rem;
+  font-weight: 700;
+ }
