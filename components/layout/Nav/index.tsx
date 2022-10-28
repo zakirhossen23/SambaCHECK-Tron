@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import NavLink from "next/link";
 import { Button } from "@heathmont/moon-core-tw";
 import { SoftwareLogOut } from "@heathmont/moon-icons-tw";
-import "../../../services/contract";
 import isServer from "../../../components/isServer";
 declare let window: any;
 let running = false;
@@ -19,20 +18,18 @@ export function Nav(): JSX.Element {
         window.document.getElementById("withSign").style.display = "none";
         return;
       }
-      if (window.localStorage.getItem("login-type") === "metamask") {
-        const Web3 = require("web3")
-        const web3 = new Web3(window.ethereum)
-        let Balance = await web3.eth.getBalance(window.ethereum.selectedAddress);
+      if (window.localStorage.getItem("login-type") === "TronLink") {
+       
+        let Balance = await window.tronWeb.trx.getBalance(window.accountId);
 
         let subbing = 10;
 
         if (window.innerWidth > 500) {
           subbing = 20;
         }
-        setLoginType("metamask");
-        setAcc(window.ethereum.selectedAddress.toString().substring(0, subbing) + "...");
-
-        setBalance(Balance / 1000000000000000000 + " Celo");
+        setLoginType("TronLink");
+        setAcc(window.accountId.toString().substring(0, subbing) + "...");
+        setBalance(Balance / 1000000 + " TRX");
         if (!isSigned)
           setSigned(true);
 
@@ -62,17 +59,18 @@ export function Nav(): JSX.Element {
   }
   useEffect(() => {
     fetchInfo();
-  });
+  },[]);
 
-  if (!isServer()) {
-    window.onload = function () {
-      if (!running) {
+  setInterval(()=>{ if (!isServer()) {
+    if (!running) {
+      if ( !isSigned || acc === ""){
         running = true;
-        fetchInfo();
-
+        fetchInfo();   
       }
-    }
-  }
+
+    }}
+    },1000)
+ 
 
   async function onClickDisConnect() {
     window.localStorage.setItem("loggedin", "");
@@ -123,7 +121,7 @@ export function Nav(): JSX.Element {
                   <a className="text-primary">
                     <div className="font-light">{acc}</div>
                   </a>
-                  {window.localStorage.getItem("login-type") === "metamask" ? (<>
+                  {window.localStorage.getItem("login-type") === "TronLink" ? (<>
                     <div >{Balance}</div></>) : (<></>)}
 
                 </div>

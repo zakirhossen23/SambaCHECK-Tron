@@ -97,7 +97,7 @@ export default function ValidateCertification() {
     try {
 
       // Validate in Smart contract
-      let validating = await window.contract.validate_certificate(Wallet.toLowerCase(), NumberBox).call();
+      let validating = await window.contract.validate_certificate(Wallet, NumberBox).call();
 
       console.log(validating);
       if (validating !== "false") {

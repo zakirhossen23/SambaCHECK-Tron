@@ -1,36 +1,38 @@
-import { useState, useEffect } from 'react';
-import { ethers } from 'ethers';
+import TronWeb from 'tronweb';
+import isServer from "../components/isServer";
 
-import ERC721Singleton from './ERC721Singleton';
-
-// Initializing contract
-async function initContract() {
-  try {
-    const fetchData = async () => {
-      try {
-        const signer = null;
-        if (window.localStorage.getItem('login-type') !== "metamask") {
-          const provider = new ethers.providers.JsonRpcProvider("https://alfajores-forno.celo-testnet.org");
-          signer = new ethers.Wallet("73e6d3c8393221a8424e4def114864f756763f3bb406c4c0869e5d104ff58d33", provider);
-          window.accountId = signer.address;
-        } else {
-          window.accountId = window.ethereum.selectedAddress;          
-        }
-
-        window.contract = await ERC721Singleton();
-      } catch (error) {
-        console.error(error);
+let iscalled = false;
+const fetchInfo = async () => {
+  if (typeof window !== "undefined"){
+    if (window.tronWeb && window.tronWeb.defaultAddress.base58) {
+      if (await window.localStorage.getItem('login-type') !== "TronLink") {
+        const fullNode = 'https://api.nileex.io';
+        const solidityNode = 'https://api.nileex.io';
+        const eventServer = 'https://event.nileex.io';
+        const privateKey = '1468f14005ff479c5f2ccde243ad3b85b26ff40d5a4f78f4c43c81a1b3f13a03';
+        const tronWeb = new TronWeb(fullNode, solidityNode, eventServer, privateKey);
+        window.accountId = tronWeb.address.fromPrivateKey("1468f14005ff479c5f2ccde243ad3b85b26ff40d5a4f78f4c43c81a1b3f13a03");
+        window.contract = await tronWeb.contract().at('TBT8DZwpUCdTknZvvyWbtjn5xG3LK9oqHz');
+        iscalled = false;
+      } else if (await window.localStorage.getItem('loggedin') === "true") {
+        window.contract = await window.tronWeb.contract().at('TBT8DZwpUCdTknZvvyWbtjn5xG3LK9oqHz');
+        window.accountId = window.tronWeb.defaultAddress.base58;
+        window.account = await window.tronWeb.trx.getAccount(accountId);
+        iscalled = false;
+  
       }
-    };
-    fetchData();
-  } catch (error) {
-    console.error(error)
+    }
+
   }
-
+  iscalled = false;
 }
 
-if (typeof window !== "undefined") {
-  if (window?.ethereum !== "undefined")
-    window.InitPromise = initContract()
-}
-// export default null;
+setInterval(function () {
+  if (typeof window !== "undefined" ) {
+    if (iscalled === false || typeof window.accountId === "undefined"){
+      iscalled = true;
+      fetchInfo();
+    }
+  }
+}, 100);
+

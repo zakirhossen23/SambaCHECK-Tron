@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract SambaERC721 {
+contract SambaTRC721 {
 
     //Certificate Struct
     struct certificate_struct {

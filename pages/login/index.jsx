@@ -70,7 +70,7 @@ export default function Login() {
 
   const fetchDataStatus = async () => {
     if (
-      window.ethereum.selectedAddress != null && window.localStorage.getItem("loggedin") == "true"
+      window.tronWeb.defaultAddress.base58 != null && window.localStorage.getItem("loggedin") == "true"
     ) {
       setConnectStatus(true);
     } else {
@@ -81,7 +81,7 @@ export default function Login() {
     if (!isServer()) {
       if (window.ethereum !== undefined) {
         setInterval(() => {
-          if (window.ethereum.selectedAddress != null && window.localStorage.getItem("loggedin") == "true") {
+          if (window.accountId != null && window.localStorage.getItem("loggedin") == "true") {
             window.location.href = redirecting;
           }
           fetchDataStatus();
@@ -146,47 +146,17 @@ export default function Login() {
 
 
   async function onClickConnect() {
-    let result = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+   
+    let result = await window.tronWeb.request({ method: 'tron_requestAccounts' });
     result;
-    try {
-      const getacc = await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: '0xaef3', }], //44787
-      });
-      getacc;
-    } catch (switchError) {
-      // This error code indicates that the chain has not been added to MetaMask.
-      if (switchError.code === 4902) {
-        try {
-          await window.ethereum.request({
-            method: 'wallet_addEthereumChain',
-            params: [
-              {
-                chainId: '0xaef3', //44787
-                chainName: 'Alfajores Celo Testnet',
-                nativeCurrency: {
-                  name: 'CELO',
-                  symbol: 'CELO',
-                  decimals: 18,
-                },
-                rpcUrls: ['https://alfajores-forno.celo-testnet.org'],
-              },
-            ],
-          });
-        } catch (addError) {
-          // handle "add" error
-          console.log(addError);
-        }
-      }
-      // handle other "switch" errors
-    }
     window.localStorage.setItem('loggedin', 'true')
-    window.localStorage.setItem('login-type', "metamask");
+    window.localStorage.setItem('login-type', "TronLink");
   }
-  async function MetamaskLogin() {
-    if (typeof window.ethereum === "undefined") {
+  async function TronLinkLogin() {
+    if (typeof window.tronLink === "undefined") {
       window.open(
-        "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+        "https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec",
         "_blank"
       );
     } else {
@@ -204,7 +174,7 @@ export default function Login() {
     if (type === "user") {
       setSecletedTab(1);
     } else {
-      MetamaskLogin();
+      TronLinkLogin();
     }
   }
 
@@ -242,12 +212,12 @@ export default function Login() {
       </>
     )
   }
-  function MetmaskBTN() {                            //Metamask Button  
+  function TronLinkBTN() {                            //Tronlink Button  
     return (
       <>
-        <div style={{ 'background': "#FF7000", width: '100%', fontSize: '1.6rem' }} onClick={MetamaskLogin} className={styles.userButton}>
+        <div style={{ 'background': "#FF7000", width: '100%', fontSize: '1.6rem' }} onClick={TronLinkLogin} className={styles.userButton}>
           <span>
-            Login with Metamask
+            Login with TronLink
           </span>
         </div>
       </>
@@ -277,12 +247,12 @@ export default function Login() {
       </>) : ((SecletedTab === 1) ? (<>
         <div className={`${styles.container} flex items-center flex-col gap-8`}>
           <div className={`${styles.title} gap-8 flex flex-col`}>
-            <h1 className="text-moon-32 font-bold">Login with email, or metamask</h1>
+            <h1 className="text-moon-32 font-bold">Login with email, or TronLink</h1>
           </div>
           <div className={styles.divider}></div>
           <div style={{ flexDirection: 'column-reverse' }} className={styles.Login_container}>
             <EmailBTN />
-            <MetmaskBTN />
+            <TronLinkBTN />
           </div>
 
         </div>

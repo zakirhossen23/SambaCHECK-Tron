@@ -109,12 +109,11 @@ export default function CreateCertification() {
 
       if (document.getElementById("plugin")?.checked === true) await CreatePlugin();
       // Creating  in Smart contract
-      await window.contract.create_certificate(window.ethereum.selectedAddress, NumberBox, Number(Price), Location, Description, Collection, DateBox.toString(), JSON.stringify(allFiles))
-        .send({
-          from: window.ethereum.selectedAddress,
-          gasPrice: 1000000000,
-          gas: 5_000_000,
-        });
+      await window.contract.create_certificate(window.accountId, NumberBox, Number(Price), Location, Description, Collection, DateBox.toString(), JSON.stringify(allFiles))
+      .send({
+        feeLimit:100_000_000,
+        shouldPollResponse:true
+      });
 
     } catch (error) {
       console.error(error);
@@ -193,11 +192,12 @@ if (isServer()) return null;
 
   return (
     <>
-      <Head>
+      <header>
         <title>Create Certification</title>
         <meta name="description" content="Create Certification" />
         <link rel="icon" href="/favicon.ico" />
-      </Head>
+      </header>
+
       {window.location.search.includes("embed") ? (<></>) : (<Header></Header>)}
 
       <div className={`${styles.container} flex items-center justify-center flex-col gap-8`}>
@@ -259,6 +259,7 @@ if (isServer()) return null;
                           onClick={DeleteSelectedImages}
                           name="deleteBTN"
                           id={i}
+                          key={i}
                         >
                           {item.type.includes("image") ? (
                             <img

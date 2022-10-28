@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
-
-import { Header } from "../../components/layout/Header";
-import { Nav } from "../../components/layout/Nav";
-import NavLink from "next/link";
 import isServer from "../../components/isServer";
 import styles from "./Certification.module.css";
-import { Button } from "@heathmont/moon-core-tw";
-import { GenericPicture, TypeZoomOut, ControlsPlus } from "@heathmont/moon-icons-tw";
-import { Checkbox } from "@heathmont/moon-core-tw";
 let id = "";
+let iscalled = false;
 export default function Certification() {
 
   const [CertificateURI, setCertificateURI] = useState({
@@ -40,7 +34,7 @@ export default function Certification() {
 
   //Fetching info
   async function fetchinfo() {
-    if (id !== "") {
+    if (id !== "" && typeof window.contract !== "undefined") {
       let value = await window.contract._certificate_uris(Number(id)).call()
       setCertificateURI({
         number: value.number,
@@ -51,15 +45,19 @@ export default function Certification() {
         date: value.date,
         wallet: value.wallet
       });
+      iscalled = true;
     }
 
   }
 
-  useEffect(() => {
-    if (!isServer()) {
-      fetchinfo();
+  setInterval(function () {
+    if (typeof window !== "undefined") {
+      if (iscalled === false || CertificateURI.number === "0") {
+        iscalled = true;
+        fetchinfo();
+      }
     }
-  }, [id]);
+  }, 1000);
   if (isServer()) return null;
 
 
@@ -80,7 +78,7 @@ export default function Certification() {
               <h3 className={styles.description}>{CertificateURI.description}</h3>
               <p className={styles.wallet_address}> {CertificateURI.wallet}</p>
               <p className={styles.created_by}>Created by</p>
-              <p className={styles.issued_date}>{new Date( CertificateURI.date).toDateString()}</p>
+              <p className={styles.issued_date}>{new Date(CertificateURI.date).toDateString()}</p>
               <div className={styles.badge}></div>
             </div>
           </div>
