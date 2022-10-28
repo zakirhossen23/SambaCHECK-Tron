@@ -79,7 +79,7 @@ export default function Login() {
   };
   useEffect(() => {
     if (!isServer()) {
-      if (window.ethereum !== undefined) {
+      if (window.tronLink!== undefined) {
         setInterval(() => {
           if (window.accountId != null && window.localStorage.getItem("loggedin") == "true") {
             window.location.href = redirecting;
