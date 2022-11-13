@@ -9,7 +9,6 @@ export function Nav(): JSX.Element {
   const [acc, setAcc] = useState('');
   const [LoginType, setLoginType] = useState('');
   const [Balance, setBalance] = useState("");
-  const { contract, signerAddress } = useContract()
 
   const [isSigned, setSigned] = useState(false);
   async function fetchInfo() {
@@ -47,10 +46,9 @@ export function Nav(): JSX.Element {
       }
       else if (window.localStorage.getItem("login-type") === "email") {
         try {
-          if (contract !== null) {
+          if (window.contract !== null) {
             // @ts-ignore
-            let userinfo = await contract._person_uris(Number(window.localStorage.userid))?.call();
-            console.log(userinfo);
+            let userinfo = await window.contract._person_uris(Number(window.localStorage.userid))?.call();
             setAcc(userinfo.username);
             setBalance(userinfo.email);
             setLoginType("email");
