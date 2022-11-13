@@ -26,6 +26,7 @@ export function Nav(): JSX.Element {
 
           let subbing = 10;
   
+          setSigned(true);
           if (window.innerWidth > 500) {
             subbing = 20;
           }
