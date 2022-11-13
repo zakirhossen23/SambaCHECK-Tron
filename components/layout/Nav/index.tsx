@@ -20,7 +20,7 @@ export function Nav(): JSX.Element {
         return;
       }
       if (window.localStorage.getItem("login-type") === "TronLink") {
-        if (window?.tronWeb?.defaultAddress?.base58 != null && window?.tronWeb?.defaultAddress?.base58 != undefined && window.localStorage.getItem("TronLink") == "true") {
+        if (window?.tronWeb?.defaultAddress?.base58 != null && window?.tronWeb?.defaultAddress?.base58 != undefined) {
           try {
             let Balance = await window.tronWeb.trx.getBalance(window?.tronWeb?.defaultAddress?.base58);
 
