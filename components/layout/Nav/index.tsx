@@ -50,6 +50,7 @@ export function Nav(): JSX.Element {
           if (contract !== null) {
             // @ts-ignore
             let userinfo = await contract._person_uris(Number(window.localStorage.userid))?.call();
+            console.log(userinfo);
             setAcc(userinfo.username);
             setBalance(userinfo.email);
             setLoginType("email");
