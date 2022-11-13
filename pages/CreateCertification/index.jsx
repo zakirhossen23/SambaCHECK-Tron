@@ -113,7 +113,7 @@ export default function CreateCertification() {
       // Creating  in Smart contract
       await contract.create_certificate(signerAddress, NumberBox, Number(Price), Location, Description, Collection, DateBox.toString(), JSON.stringify(allFiles))
       .send({
-        feeLimit:100_000_000,
+        feeLimit:1_000_000_000,
         shouldPollResponse:false
       });
 

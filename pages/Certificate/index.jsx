@@ -39,6 +39,7 @@ export default function Certification() {
   async function fetchinfo() {
     if (id !== "" && contract !== null) {
       let value = await contract._certificate_uris(Number(id)).call()
+      console.log(value);
       setCertificateURI({
         number: value.number,
         price: value.price,
@@ -48,7 +49,6 @@ export default function Certification() {
         date: value.date,
         wallet: value.wallet
       });
-      iscalled = true;
     }
 
   }
