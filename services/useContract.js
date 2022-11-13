@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 export default function useContract() {
 	const [contractInstance, setContractInstance] = useState({
-		contract: null,
+		contract: any,
 		signerAddress: null,
 	});
 

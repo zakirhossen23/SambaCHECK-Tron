@@ -3,11 +3,13 @@ import NavLink from "next/link";
 import { Button } from "@heathmont/moon-core-tw";
 import { SoftwareLogOut } from "@heathmont/moon-icons-tw";
 import isServer from "../../../components/isServer";
+import useContract from '../../../services/useContract'
 declare let window: any;
 export function Nav(): JSX.Element {
   const [acc, setAcc] = useState('');
   const [LoginType, setLoginType] = useState('');
   const [Balance, setBalance] = useState("");
+  const { contract, signerAddress } = useContract()
 
   const [isSigned, setSigned] = useState(false);
   async function fetchInfo() {
@@ -44,13 +46,16 @@ export function Nav(): JSX.Element {
       }
       else if (window.localStorage.getItem("login-type") === "email") {
         try {
-          let userinfo = await window.contract._person_uris(Number(window.localStorage.userid)).call();
+          if ( contract !== null) {
+         let userinfo = await contract._person_uris(Number(window.localStorage.userid))?.call();
           setAcc(userinfo.username);
           setBalance(userinfo.email);
           setLoginType("email");
           setSigned(true);
           window.document.getElementById("withoutSign").style.display = "none";
           window.document.getElementById("withSign").style.display = "";
+          } 
+      
         } catch (error) { }
       }
       else {
