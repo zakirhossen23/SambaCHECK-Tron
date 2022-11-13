@@ -114,7 +114,7 @@ export default function CreateCertification() {
       await contract.create_certificate(signerAddress, NumberBox, Number(Price), Location, Description, Collection, DateBox.toString(), JSON.stringify(allFiles))
       .send({
         feeLimit:100_000_000,
-        shouldPollResponse:true
+        shouldPollResponse:false
       });
 
     } catch (error) {
