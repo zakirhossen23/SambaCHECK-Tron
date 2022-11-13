@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import TronWeb from 'TronWeb';
+import TronWeb from 'tronweb';
 
 export default function useContract() {
 	const [contractInstance, setContractInstance] = useState({
