@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import isServer from "../../components/isServer";
 import styles from "./Certification.module.css";
+import useContract from '../../services/useContract'
 let id = "";
 let iscalled = false;
 export default function Certification() {
 
+
+  const { contract, signerAddress } = useContract()
   const [CertificateURI, setCertificateURI] = useState({
     number: "0",
     price: "0",
@@ -34,8 +37,8 @@ export default function Certification() {
 
   //Fetching info
   async function fetchinfo() {
-    if (id !== "" && typeof window.contract !== "undefined") {
-      let value = await window.contract._certificate_uris(Number(id)).call()
+    if (id !== "" && contract !== null) {
+      let value = await contract._certificate_uris(Number(id)).call()
       setCertificateURI({
         number: value.number,
         price: value.price,
@@ -49,15 +52,10 @@ export default function Certification() {
     }
 
   }
+  useEffect(() => {
+    fetchinfo();
+  }, [contract])
 
-  setInterval(function () {
-    if (typeof window !== "undefined") {
-      if (iscalled === false || CertificateURI.number === "0") {
-        iscalled = true;
-        fetchinfo();
-      }
-    }
-  }, 1000);
   if (isServer()) return null;
 
 

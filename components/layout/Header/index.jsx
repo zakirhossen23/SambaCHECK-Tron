@@ -8,7 +8,7 @@ export const Header = () => {
     <header className={`w-full p-4 gap-4 flex justify-between z-1 ${styles.header}`}>
       <Link href="/">
         <div className={`px-2 inline-flex ${styles.logo}`}>
-          <Image height={60} width={60} src="/favicon.ico" alt="SambaCHECK" />
+          <Image height={60} width={80} src="/Logo-white.png" alt="SambaCHECK" />
         </div>
       </Link>
       <Nav />

@@ -82,7 +82,7 @@ contract SambaTRC721 {
     }
 
   function testing() public returns (string memory){
-    create_certificate("0x168e007d9f5a794794e40035c5214963cb16bfb7","35", 300,"Dhaka","A T-shirt with the width of 5 \" and height of 7\" and a bag of 40 celo","T-shirt, bag","2022-10-13T04:06","image url");
+    create_certificate("0x168e007d9f5a794794e40035c5214963cb16bfb7","35", 300,"Dhaka","A T-shirt with the width of 5 \" and height of 7\" and a bag of 40 TRX","T-shirt, bag","2022-10-13T04:06","image url");
     return validate_certificate("0x168e007d9f5a794794e40035c5214963cb16bfb7","35");
   }
 

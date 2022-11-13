@@ -4,7 +4,6 @@ import { Button } from "@heathmont/moon-core-tw";
 import { SoftwareLogOut } from "@heathmont/moon-icons-tw";
 import isServer from "../../../components/isServer";
 declare let window: any;
-let running = false;
 export function Nav(): JSX.Element {
   const [acc, setAcc] = useState('');
   const [LoginType, setLoginType] = useState('');
@@ -18,23 +17,30 @@ export function Nav(): JSX.Element {
         window.document.getElementById("withSign").style.display = "none";
         return;
       }
-      if (window.localStorage.getItem("login-type") === "TronLink") {
-       
-        let Balance = await window.tronWeb.trx.getBalance(window.accountId);
+      if (window.localStorage.getItem("login-type") === "TronLink" ) {
+        if (window?.tronWeb?.defaultAddress?.base58 != null && window?.tronWeb?.defaultAddress?.base58 != undefined && window.localStorage.getItem("TronLink") == "true") {
+          try {
+          let Balance = await window.tronWeb.trx.getBalance(window?.tronWeb?.defaultAddress?.base58);
 
-        let subbing = 10;
-
-        if (window.innerWidth > 500) {
-          subbing = 20;
+          let subbing = 10;
+  
+          if (window.innerWidth > 500) {
+            subbing = 20;
+          }
+          setLoginType("TronLink");
+          setAcc(window?.tronWeb?.defaultAddress?.base58.toString().substring(0, subbing) + "...");
+          setBalance(Balance / 1000000 + " TRX");
+  
+          window.document.getElementById("withoutSign").style.display = "none";
+          window.document.getElementById("withSign").style.display = "";
+        } catch (error) {
+          
         }
-        setLoginType("TronLink");
-        setAcc(window.accountId.toString().substring(0, subbing) + "...");
-        setBalance(Balance / 1000000 + " TRX");
-        if (!isSigned)
-          setSigned(true);
-
-        window.document.getElementById("withoutSign").style.display = "none";
-        window.document.getElementById("withSign").style.display = "";
+      
+       }else{        
+        return;
+       }
+     
       }
       else if (window.localStorage.getItem("login-type") === "email") {
         try {
@@ -55,22 +61,13 @@ export function Nav(): JSX.Element {
     } catch (error) {
 
     }
-    running = false;
   }
   useEffect(() => {
-    fetchInfo();
-  },[]);
+      setInterval(async () => {
+          await fetchInfo();
+      }, 1000)
 
-  setInterval(()=>{ if (!isServer()) {
-    if (!running) {
-      if ( !isSigned || acc === ""){
-        running = true;
-        fetchInfo();   
-      }
-
-    }}
-    },1000)
- 
+  }, []);
 
   async function onClickDisConnect() {
     window.localStorage.setItem("loggedin", "");

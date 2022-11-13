@@ -5,6 +5,7 @@ import UseFormTextArea from "../../components/components/UseFormTextArea";
 import { Header } from "../../components/layout/Header";
 import { Nav } from "../../components/layout/Nav";
 import NavLink from "next/link";
+import useContract from '../../services/useContract'
 import isServer from "../../components/isServer";
 import { NFTStorage, File } from "nft.storage";
 import styles from "./CreateCertification.module.css";
@@ -14,6 +15,7 @@ import { Checkbox } from "@heathmont/moon-core-tw";
 import { useEffect } from "react";
 
 export default function CreateCertification() {
+  const { contract, signerAddress } = useContract()
   const [Image, setImage] = useState([]);
   //Storage API for images and videos
   const NFT_STORAGE_TOKEN =
@@ -24,7 +26,7 @@ export default function CreateCertification() {
   const [Price, PriceInput] = UseFormInput({
     defaultValue: "",
     type: "number",
-    placeholder: "Price in Celo",
+    placeholder: "Price in TRX",
     id: "",
   });
   const [Location, LocationInput] = UseFormInput({
@@ -78,7 +80,7 @@ export default function CreateCertification() {
 
   //Creating plugin function
   async function CreatePlugin() {
-    const output = `<html><head></head><body><iframe src="${`http://${window.location.host}/Certificate?[${await window.contract._certificate_ids().call()}]`}"  style="width: 100%;height: 100%;" /></body></html>`;
+    const output = `<html><head></head><body><iframe src="${`http://${window.location.host}/Certificate?[${await contract._certificate_ids().call()}]`}"  style="width: 100%;height: 100%;" /></body></html>`;
     // Download it
     const blob = new Blob([output]);
     const fileDownloadUrl = URL.createObjectURL(blob);
@@ -109,7 +111,7 @@ export default function CreateCertification() {
 
       if (document.getElementById("plugin")?.checked === true) await CreatePlugin();
       // Creating  in Smart contract
-      await window.contract.create_certificate(window.accountId, NumberBox, Number(Price), Location, Description, Collection, DateBox.toString(), JSON.stringify(allFiles))
+      await contract.create_certificate(signerAddress, NumberBox, Number(Price), Location, Description, Collection, DateBox.toString(), JSON.stringify(allFiles))
       .send({
         feeLimit:100_000_000,
         shouldPollResponse:true

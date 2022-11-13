@@ -6,7 +6,7 @@ import { Header } from "../../components/layout/Header";
 import { Nav } from "../../components/layout/Nav";
 import NavLink from "next/link";
 import isServer from "../../components/isServer";
-import { NFTStorage, File } from "nft.storage";
+import useContract from '../../services/useContract'
 import emailjs from '@emailjs/browser';
 import styles from "./ValidateCertification.module.css";
 import { Button } from "@heathmont/moon-core-tw";
@@ -15,6 +15,7 @@ import { Checkbox } from "@heathmont/moon-core-tw";
 
 export default function ValidateCertification() {
   const [Alert, setAlert] = useState('');
+  const { contract, signerAddress } = useContract()
 
   if (isServer()) return null;
   const [Wallet, WalletInput] = UseFormInput({
@@ -32,7 +33,7 @@ export default function ValidateCertification() {
 
   async function SendMessage(id) {
     const certificate_url = `${`http://${window.location.host}/Certificate?[${id}]`}`;
-    let userinfo = await window.contract._person_uris(Number(window.localStorage.userid)).call();
+    let userinfo = await contract._person_uris(Number(window.localStorage.userid)).call();
 
     var templateParams = {
       to: userinfo.email,
@@ -97,7 +98,7 @@ export default function ValidateCertification() {
     try {
 
       // Validate in Smart contract
-      let validating = await window.contract.validate_certificate(Wallet, NumberBox).call();
+      let validating = await contract.validate_certificate(Wallet, NumberBox).call();
 
       console.log(validating);
       if (validating !== "false") {

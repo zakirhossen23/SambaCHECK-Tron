@@ -34,8 +34,8 @@ export default function Welcome() {
             <Image height={400} width={400} src={logo} alt="" />
           </div>
           <p className="py-4 text-justify">      
-            SambaCHECK is a plugin that provides a web3 security infrastructure for 
-            organizations, where they can make a non-fungible token (NFT) certification
+            SambaCHECK is a plugin that provides a web3 security infrastructure on TRON  
+            for organizations, where they can make a non-fungible token (NFT) certification
             for each product automatically. SambaCHECK creates a new layer of security
             where brands can protect their products by providing a unique certification
             which will be generated when the product is selling. SambaCHECK helps 
@@ -62,8 +62,8 @@ export default function Welcome() {
             <Image src={logo_white} width={450} height={400} alt="" />
           </div>
           <p className="py-4 text-justify">
-          SambaCHECK is a plugin that provides a web3 security infrastructure for 
-            organizations, where they can make a non-fungible token (NFT) certification
+            SambaCHECK is a plugin that provides a web3 security infrastructure on TRON  
+            for organizations, where they can make a non-fungible token (NFT) certification
             for each product automatically. SambaCHECK creates a new layer of security
             where brands can protect their products by providing a unique certification
             which will be generated when the product is selling. SambaCHECK helps 
