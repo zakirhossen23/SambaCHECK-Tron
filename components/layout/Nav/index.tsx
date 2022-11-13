@@ -19,44 +19,45 @@ export function Nav(): JSX.Element {
         window.document.getElementById("withSign").style.display = "none";
         return;
       }
-      if (window.localStorage.getItem("login-type") === "TronLink" ) {
+      if (window.localStorage.getItem("login-type") === "TronLink") {
         if (window?.tronWeb?.defaultAddress?.base58 != null && window?.tronWeb?.defaultAddress?.base58 != undefined && window.localStorage.getItem("TronLink") == "true") {
           try {
-          let Balance = await window.tronWeb.trx.getBalance(window?.tronWeb?.defaultAddress?.base58);
+            let Balance = await window.tronWeb.trx.getBalance(window?.tronWeb?.defaultAddress?.base58);
 
-          let subbing = 10;
-  
-          setSigned(true);
-          if (window.innerWidth > 500) {
-            subbing = 20;
+            let subbing = 10;
+
+            setSigned(true);
+            if (window.innerWidth > 500) {
+              subbing = 20;
+            }
+            setLoginType("TronLink");
+            setAcc(window?.tronWeb?.defaultAddress?.base58.toString().substring(0, subbing) + "...");
+            setBalance(Balance / 1000000 + " TRX");
+
+            window.document.getElementById("withoutSign").style.display = "none";
+            window.document.getElementById("withSign").style.display = "";
+          } catch (error) {
+
           }
-          setLoginType("TronLink");
-          setAcc(window?.tronWeb?.defaultAddress?.base58.toString().substring(0, subbing) + "...");
-          setBalance(Balance / 1000000 + " TRX");
-  
-          window.document.getElementById("withoutSign").style.display = "none";
-          window.document.getElementById("withSign").style.display = "";
-        } catch (error) {
-          
+
+        } else {
+          return;
         }
-      
-       }else{        
-        return;
-       }
-     
+
       }
       else if (window.localStorage.getItem("login-type") === "email") {
         try {
-          if ( contract !== null) {
-         let userinfo = await contract._person_uris(Number(window.localStorage.userid))?.call();
-          setAcc(userinfo.username);
-          setBalance(userinfo.email);
-          setLoginType("email");
-          setSigned(true);
-          window.document.getElementById("withoutSign").style.display = "none";
-          window.document.getElementById("withSign").style.display = "";
-          } 
-      
+          if (contract !== null) {
+            // @ts-ignore
+            let userinfo = await contract._person_uris(Number(window.localStorage.userid))?.call();
+            setAcc(userinfo.username);
+            setBalance(userinfo.email);
+            setLoginType("email");
+            setSigned(true);
+            window.document.getElementById("withoutSign").style.display = "none";
+            window.document.getElementById("withSign").style.display = "";
+          }
+
         } catch (error) { }
       }
       else {
@@ -69,9 +70,9 @@ export function Nav(): JSX.Element {
     }
   }
   useEffect(() => {
-      setInterval(async () => {
-          await fetchInfo();
-      }, 1000)
+    setInterval(async () => {
+      await fetchInfo();
+    }, 1000)
 
   }, []);
 
